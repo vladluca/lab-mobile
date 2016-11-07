@@ -17,6 +17,7 @@ import {
 import Button from 'react-native-button';
 
 import CarList from './CarList';
+import EditCar from './EditCar';
 import Root from './root';
 
 export default class mobileLab extends Component {
@@ -28,6 +29,9 @@ export default class mobileLab extends Component {
       }
       if(route.name == 'carlist') {
         return <CarList navigator={navigator} />
+      }
+      if(route.name == 'editCar') {
+        return <EditCar navigator={navigator} car={route.data}/>
       }
     }
 

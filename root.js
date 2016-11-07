@@ -7,7 +7,8 @@ import {
   Text,
   View,
   Linking,
-  TextInput
+  TextInput,
+  BackAndroid
 } from 'react-native';
 
 import Button from 'react-native-button';
@@ -20,6 +21,16 @@ class Root extends Component {
           text: ''
       }
     }
+
+    componentDidMount(){
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            if (this.props.navigator && this.props.navigator.getCurrentRoutes().length > 1) {
+                this.props.navigator.pop();
+                return true;
+            }
+            return false;
+        });
+      }
 
     handleButtonPress() {
       Linking.openURL('mailto:someemail@gmail.com?subject=Lab3&body=' + this.state.text);

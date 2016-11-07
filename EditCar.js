@@ -6,60 +6,39 @@ import {
   TouchableHighlight,
   AsyncStorage,
   Text,
-  View
+  View,
+  BackAndroid
 } from 'react-native';
 
-import Button from 'react-native-button';
+class EditCar extends Component {
 
-class CarList extends Component {
-  constructor(){
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-        cars: [
-          {
-            mark: 'Audi',
-            model: 'A4'
-          },
-          {
-            mark: 'Mazda',
-            model: '2'
-          },
-          {
-            mark: 'Skoda',
-            model: 'Octavia'
-          }
-        ]
+        carModel: props.car.model,
+        carMark: props.car.mark
     }
   }
 
-  navigate(routeName, data) {
+  navigate(routeName) {
       this.props.navigator.push({
-        name: routeName,
-        data: data
+        name: routeName
       });
     }
 
-  redirect(routeName, accessToken){
-    this.props.navigator.push({
-      name: routeName
-    });
-  }
-
   render() {
-
-    const lapsList = this.state.cars.map((data, index) => {
-        return (
-          <View key={index}><Button onPress={ this.navigate.bind(this, 'editCar', data) }>{data.model + ' ' + data.mark}</Button></View>
-        )
-      })
-
-
     return (
       <View style={styles.container}>
-        <Text style={styles.heading}>
-          Car list:
-        </Text>
-        {lapsList}
+        <TextInput
+          style={{width: 150,height: 40, borderColor: 'gray', borderWidth: 1}}
+          onChangeText={(text) => this.setState({carModel: text})}
+          value={this.state.carModel}
+        />
+        <TextInput
+          style={{width: 150,height: 40, borderColor: 'gray', borderWidth: 1}}
+          onChangeText={(text) => this.setState({carMark: text})}
+          value={this.state.carMark}
+        />
       </View>
     );
   }
@@ -110,4 +89,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CarList
+export default EditCar
