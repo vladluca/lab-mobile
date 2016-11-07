@@ -9,44 +9,48 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  TextInput,
+  Linking,
+  Navigator
 } from 'react-native';
+import Button from 'react-native-button';
+
+import CarList from './CarList';
+import EditCar from './EditCar';
+import Root from './root';
 
 export default class mobileLab extends Component {
+
+  renderScene(route, navigator) {
+      console.log(route);
+      if(route.name == 'root') {
+        return <Root navigator={navigator} />
+      }
+      if(route.name == 'carlist') {
+        return <CarList navigator={navigator} />
+      }
+      if(route.name == 'editCar') {
+        return <EditCar navigator={navigator} car={route.data}/>
+      }
+    }
+
   render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native Vlad Luca!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
-  }
+      return (
+        <View style={styles.container}>
+          <Navigator
+            initialRoute={{name: 'root'}}
+            renderScene={this.renderScene.bind(this)}
+          />
+        </View>
+      );
+    }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });
 
