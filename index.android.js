@@ -11,57 +11,42 @@ import {
   Text,
   View,
   TextInput,
-  Linking
+  Linking,
+  Navigator
 } from 'react-native';
 import Button from 'react-native-button';
 
-export default class mobileLab extends Component {
-  constructor() {
-    super();
-    this.state = {
-        text: ''
-    }
-  }
+import CarList from './CarList';
+import Root from './root';
 
-  handleButtonPress() {
-    Linking.openURL('mailto:someemail@gmail.com?subject=Lab3&body=' + this.state.text);
-  }
+export default class mobileLab extends Component {
+
+  renderScene(route, navigator) {
+      console.log(route);
+      if(route.name == 'root') {
+        return <Root navigator={navigator} />
+      }
+      if(route.name == 'carlist') {
+        return <CarList navigator={navigator} />
+      }
+    }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <TextInput
-          style={{width: 150,height: 40, borderColor: 'gray', borderWidth: 1}}
-          onChangeText={(text) => this.setState({text})}
-          value={this.state.text}
-        />
-        <Button
-            style={{fontSize: 20, color: 'green'}}
-            styleDisabled={{color: 'red'}}
-            onPress={() => this.handleButtonPress()}>
-            Press Me!
-        </Button>
-       </View>
-    );
-  }
+      return (
+        <View style={styles.container}>
+          <Navigator
+            initialRoute={{name: 'root'}}
+            renderScene={this.renderScene.bind(this)}
+          />
+        </View>
+      );
+    }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });
 
