@@ -9,24 +9,39 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  TextInput,
+  Linking
 } from 'react-native';
+import Button from 'react-native-button';
 
 export default class mobileLab extends Component {
+  constructor() {
+    super();
+    this.state = {
+        text: ''
+    }
+  }
+
+  handleButtonPress() {
+    Linking.openURL('mailto:someemail@gmail.com?subject=Lab3&body=' + this.state.text);
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native Vlad Luca!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
+        <TextInput
+          style={{width: 150,height: 40, borderColor: 'gray', borderWidth: 1}}
+          onChangeText={(text) => this.setState({text})}
+          value={this.state.text}
+        />
+        <Button
+            style={{fontSize: 20, color: 'green'}}
+            styleDisabled={{color: 'red'}}
+            onPress={() => this.handleButtonPress()}>
+            Press Me!
+        </Button>
+       </View>
     );
   }
 }
