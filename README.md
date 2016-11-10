@@ -1,3 +1,5 @@
+The repository for the Android project is: https://github.com/vladluca/labMobileAndroid
+
 The app will be a car catalog and it will include the next features:
  - An input porm for search cars.
  - A list of cars
