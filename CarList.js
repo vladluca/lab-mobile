@@ -45,6 +45,7 @@ class CarList extends Component {
     var newCar = this.state.newCar.split(" ");
     carlist.push({mark: newCar[0], model: newCar[1]});
     this.setState({cars: carlist});
+    this.setState({newCar: ''})
   }
 
   navigate(routeName, data, index) {
