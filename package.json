@@ -7,9 +7,10 @@
     "test": "jest"
   },
   "dependencies": {
-    "react": "15.3.2",
-    "react-native": "0.35.0",
-    "react-native-button": "^1.7.1"
+    "react": "15.4.0",
+    "react-native": "0.38.0",
+    "react-native-button": "^1.7.1",
+    "react-native-pathjs-charts": "0.0.21"
   },
   "jest": {
     "preset": "jest-react-native"
