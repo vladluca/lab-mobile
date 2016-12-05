@@ -10,6 +10,8 @@ import {
   BackAndroid
 } from 'react-native';
 
+import Button from 'react-native-button';
+
 class EditCar extends Component {
 
   constructor(props) {
@@ -26,6 +28,11 @@ class EditCar extends Component {
       });
     }
 
+  edit() {
+    this.props.callback(this.state.carMark, this.state.carModel, this.props.carIndex);
+    this.props.navigator.pop();
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -39,6 +46,9 @@ class EditCar extends Component {
           onChangeText={(text) => this.setState({carMark: text})}
           value={this.state.carMark}
         />
+
+        <Button onPress={ this.edit.bind(this) }>Save</Button>
+
       </View>
     );
   }

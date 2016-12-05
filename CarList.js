@@ -14,6 +14,7 @@ import Button from 'react-native-button';
 class CarList extends Component {
   constructor(){
     super();
+    this.edit = this.edit.bind(this);
     this.state = {
         cars: [
           {
@@ -28,17 +29,40 @@ class CarList extends Component {
             mark: 'Skoda',
             model: 'Octavia'
           }
-        ]
+        ],
+      newCar: ''
     }
   }
 
-  navigate(routeName, data) {
+  delete(index) {
+    var carlist = this.state.cars;
+    delete carlist[index];
+    this.setState({cars: carlist});
+  }
+
+  saveCar() {
+    var carlist = this.state.cars;
+    var newCar = this.state.newCar.split(" ");
+    carlist.push({mark: newCar[0], model: newCar[1]});
+    this.setState({cars: carlist});
+  }
+
+  navigate(routeName, data, index) {
       this.props.navigator.push({
         name: routeName,
-        data: data
+        data: data,
+        callback: this.edit,
+        carIndex: index
       });
     }
 
+  edit(carMark, carModel, index) {
+    var carlist = this.state.cars;
+    carlist[index].mark = carMark;
+    carlist[index].model = carModel;
+    this.setState({cars: carlist});
+  }
+  
   redirect(routeName, accessToken){
     this.props.navigator.push({
       name: routeName
@@ -49,13 +73,24 @@ class CarList extends Component {
 
     const lapsList = this.state.cars.map((data, index) => {
         return (
-          <View key={index}><Button onPress={ this.navigate.bind(this, 'editCar', data) }>{data.model + ' ' + data.mark}</Button></View>
+          <View key={index}>
+            <Button onPress={ this.navigate.bind(this, 'editCar', data, index) }>{data.model + ' ' + data.mark}</Button>
+            <Button onPress={ this.delete.bind(this, index) }>Delete</Button>
+          </View>
         )
       })
 
 
     return (
       <View style={styles.container}>
+        <TextInput
+            style={{width: 150,height: 40, borderColor: 'gray', borderWidth: 1}}
+            onChangeText={(newCar) => this.setState({newCar})}
+            value={this.state.newCar}
+        />
+
+        <Button onPress={ this.saveCar.bind(this) }>Save</Button>
+
         <Text style={styles.heading}>
           Car list:
         </Text>
