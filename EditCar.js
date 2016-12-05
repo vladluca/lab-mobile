@@ -10,6 +10,9 @@ import {
   BackAndroid
 } from 'react-native';
 
+import Button from 'react-native-button';
+import { Pie } from 'react-native-pathjs-charts'
+
 class EditCar extends Component {
 
   constructor(props) {
@@ -26,7 +29,49 @@ class EditCar extends Component {
       });
     }
 
+  edit() {
+    this.props.callback(this.state.carMark, this.state.carModel, this.props.carIndex);
+    this.props.navigator.pop();
+  }
+
   render() {
+
+    var sampleData = {
+        pie: {
+            data: [{
+                "name": "Diesel",
+                "population": 1962903
+            }, {
+                "name": "Petrol",
+                "population": 2805387
+            }],
+            options: {
+                margin: {
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0
+                },
+                width: 300,
+                height: 300,
+                color: '#2980B9',
+                r: 75,
+                R: 150,
+                legendPosition: 'topLeft',
+                animate: {
+                    type: 'oneByOne',
+                    duration: 200,
+                    fillTransition: 3
+                },
+                label: {
+                    fontFamily: 'Arial',
+                    fontSize: 14,
+                    fontWeight: true,
+                    color: '#ECF0F1'
+                }
+            }
+        }
+    };
     return (
       <View style={styles.container}>
         <TextInput
@@ -39,6 +84,13 @@ class EditCar extends Component {
           onChangeText={(text) => this.setState({carMark: text})}
           value={this.state.carMark}
         />
+
+        <Button onPress={ this.edit.bind(this) }>Save</Button>
+
+          <Pie
+              data={sampleData.pie.data}
+              options={sampleData.pie.options}
+              accessorKey="population" />
       </View>
     );
   }
