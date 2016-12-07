@@ -15,6 +15,7 @@ class CarList extends Component {
   constructor(){
     super();
     this.edit = this.edit.bind(this);
+
     this.state = {
         cars: [
           {
@@ -36,8 +37,26 @@ class CarList extends Component {
 
   delete(index) {
     var carlist = this.state.cars;
+    var carlistAfterDelete = [];
+    var i = 0;
+    carlist.map((car) => {
+      if (index != i) {
+        carlistAfterDelete.push(car);
+      }
+      i += 1;
+    });
+
     delete carlist[index];
     this.setState({cars: carlist});
+
+    try {
+      AsyncStorage.setItem('@carList:key', JSON.stringify(carlistAfterDelete)).then((data) => {
+
+      });
+
+    } catch (error) {
+      // Error saving data
+    }
   }
 
   saveCar() {
@@ -45,6 +64,16 @@ class CarList extends Component {
     var newCar = this.state.newCar.split(" ");
     carlist.push({mark: newCar[0], model: newCar[1]});
     this.setState({cars: carlist});
+
+    try {
+      AsyncStorage.setItem('@carList:key', JSON.stringify(carlist)).then((data) => {
+
+      });
+
+    } catch (error) {
+      // Error saving data
+    }
+
     this.setState({newCar: ''})
   }
 
@@ -62,8 +91,32 @@ class CarList extends Component {
     carlist[index].mark = carMark;
     carlist[index].model = carModel;
     this.setState({cars: carlist});
+
+
+    try {
+      AsyncStorage.setItem('@carList:key', JSON.stringify(carlist)).then((data) => {
+
+      });
+
+    } catch (error) {
+      // Error saving data
+    }
   }
-  
+
+
+  componentWillMount() {
+
+    try {
+      AsyncStorage.getItem('@carList:key').then((data) => {
+        if (data) {
+          this.setState({cars: JSON.parse(data)});
+        }
+      });
+    } catch (error) {
+
+    }
+  }
+
   redirect(routeName, accessToken){
     this.props.navigator.push({
       name: routeName
